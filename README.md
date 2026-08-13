@@ -6,7 +6,8 @@ Azure DevOps pipeline that fetches data from Azure Cosmos DB, run on a self-host
 
 - `azure-pipelines.yml` runs on the `cosmos-vm-pool` agent pool (the Azure VM registered as a self-hosted DevOps agent).
 - The pipeline pulls the Cosmos DB connection string from Azure Key Vault via the `AzureKeyVault@2` task and passes it to `fetch_cosmos_data.py` as an environment variable.
-- `fetch_cosmos_data.py` queries the configured database/container and prints the results to the pipeline log.
+- `fetch_cosmos_data.py` queries the configured database/container, prints the results to the pipeline log, and writes them to `cosmos_data.json`.
+- The pipeline publishes that JSON file as a pipeline artifact named `cosmos-data`, downloadable from the run's **Artifacts** dropdown or via `az pipelines runs artifact download`.
 
 ## One-time setup
 

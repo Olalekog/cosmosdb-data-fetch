@@ -38,3 +38,11 @@ steps:
       COSMOS_DATABASE_NAME: $(COSMOS_DATABASE_NAME)
       COSMOS_CONTAINER_NAME: $(COSMOS_CONTAINER_NAME)
       COSMOS_QUERY: $(COSMOS_QUERY)
+      COSMOS_OUTPUT_PATH: $(Build.ArtifactStagingDirectory)/cosmos_data.json
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish fetched data as pipeline artifact'
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/cosmos_data.json'
+      artifact: 'cosmos-data'
+      publishLocation: 'pipeline'

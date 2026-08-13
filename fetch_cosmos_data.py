@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -6,6 +7,7 @@ from azure.cosmos import CosmosClient
 DATABASE_NAME = os.environ.get("COSMOS_DATABASE_NAME", "")
 CONTAINER_NAME = os.environ.get("COSMOS_CONTAINER_NAME", "")
 QUERY = os.environ.get("COSMOS_QUERY", "SELECT * FROM c")
+OUTPUT_PATH = os.environ.get("COSMOS_OUTPUT_PATH", "cosmos_data.json")
 
 
 def main():
@@ -25,6 +27,13 @@ def main():
     print(f"Fetched {len(items)} item(s) from {DATABASE_NAME}/{CONTAINER_NAME}")
     for item in items:
         print(item)
+
+    output_dir = os.path.dirname(OUTPUT_PATH)
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+        json.dump(items, f, indent=2, default=str)
+    print(f"Wrote {len(items)} item(s) to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":
