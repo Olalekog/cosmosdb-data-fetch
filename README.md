@@ -15,7 +15,7 @@ Azure DevOps pipeline that fetches data from Azure Cosmos DB, run on a self-host
    - On the VM, download and configure the agent per [Microsoft's self-hosted agent docs](https://learn.microsoft.com/azure/devops/pipelines/agents/agents), targeting that pool. Ensure Python 3.11+ is installed on the VM.
 
 2. **Store the Cosmos DB connection string in Key Vault**
-   - `az keyvault secret set --vault-name Cosmos-DB-KV --name Cosmos-DB-Secret --value "<connection-string>"`
+   - `az keyvault secret set --vault-name Cosmos-DB-KV --name COSMODB-CONNECTION-STRING --value "<connection-string>"`
 
 3. **Create an Azure service connection** in Azure DevOps (Project Settings > Service connections) with permission to read the Key Vault.
 
@@ -25,14 +25,14 @@ Azure DevOps pipeline that fetches data from Azure Cosmos DB, run on a self-host
 
 | Secret name | Description |
 | --- | --- |
-| `Cosmos-DB-Secret` | Cosmos DB account connection string used by `fetch_cosmos_data.py` |
+| `COSMODB-CONNECTION-STRING` | Cosmos DB account connection string used by `fetch_cosmos_data.py` |
 
 ### Library variable group (`cosmosdb-fetch-vars`)
 
 | Variable | Secret? | Description |
 | --- | --- | --- |
 | `azureServiceConnection` | No | Name of the Azure service connection (step 3) used to authorize Key Vault access |
-| `keyVaultName` | No | `Cosmos-DB-KV` — name of the Key Vault holding `Cosmos-DB-Secret` |
+| `keyVaultName` | No | `Cosmos-DB-KV` — name of the Key Vault holding `COSMODB-CONNECTION-STRING` |
 | `COSMOS_DATABASE_NAME` | No | Cosmos DB database name to query |
 | `COSMOS_CONTAINER_NAME` | No | Cosmos DB container name to query |
 | `COSMOS_QUERY` | No | Query to run (defaults to `SELECT * FROM c` if omitted) |

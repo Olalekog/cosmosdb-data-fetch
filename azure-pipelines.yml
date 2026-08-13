@@ -17,7 +17,7 @@ steps:
     inputs:
       azureSubscription: '$(azureServiceConnection)'
       KeyVaultName: '$(keyVaultName)'
-      SecretsFilter: 'Cosmos-DB-Secret'
+      SecretsFilter: 'COSMODB-CONNECTION-STRING'
       RunAsPreJob: false
 
   - task: UsePythonVersion@0
