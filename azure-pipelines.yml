@@ -3,7 +3,10 @@ trigger:
     include:
       - main
 
-pool: cosmos-vm-pool # self-hosted agent pool containing the registered Azure VM
+pool:
+  name: self-hosted
+  demands:
+  - Agent.Name -equals OGOGUNDARE # self-hosted agent pool containing the registered Azure VM
 
 variables:
   - group: cosmosdb-fetch-vars # Pipeline Library variable group; see README for required variables
