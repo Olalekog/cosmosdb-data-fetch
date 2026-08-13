@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool: cosmos-vm-pool # self-hosted agent pool containing the registered Azure VM
+
+variables:
+  - group: cosmosdb-fetch-vars # Pipeline Library variable group; see README for required variables
+
+steps:
+  - task: AzureKeyVault@2
+    displayName: 'Fetch Cosmos DB connection string from Key Vault'
+    inputs:
+      azureSubscription: '$(azureServiceConnection)'
+      KeyVaultName: '$(keyVaultName)'
+      SecretsFilter: 'Cosmos-DB-Secret'
+      RunAsPreJob: false
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11'
+      addToPath: true
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: 'Install dependencies'
+
+  - script: |
+      python fetch_cosmos_data.py
+    displayName: 'Fetch data from Cosmos DB'
+    env:
+      COSMOS_CONNECTION_STRING: $(Cosmos-DB-Secret)
+      COSMOS_DATABASE_NAME: $(COSMOS_DATABASE_NAME)
+      COSMOS_CONTAINER_NAME: $(COSMOS_CONTAINER_NAME)
+      COSMOS_QUERY: $(COSMOS_QUERY)
