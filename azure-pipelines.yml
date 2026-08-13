@@ -34,7 +34,7 @@ steps:
       python fetch_cosmos_data.py
     displayName: 'Fetch data from Cosmos DB'
     env:
-      COSMOS_CONNECTION_STRING: $(Cosmos-DB-Secret)
+      COSMOS_CONNECTION_STRING: $(COSMODB-CONNECTION-STRING)
       COSMOS_DATABASE_NAME: $(COSMOS_DATABASE_NAME)
       COSMOS_CONTAINER_NAME: $(COSMOS_CONTAINER_NAME)
       COSMOS_QUERY: $(COSMOS_QUERY)
